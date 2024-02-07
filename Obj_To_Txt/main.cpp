@@ -2,7 +2,7 @@
 #include "./headers/Triangulation.h"
 #include "./headers/Triangle.h"
 #include "./headers/ObjReader.h"
-#include "./headers/ObjWriter.h"
+#include "./headers/TxtWriter.h"
 #include "./headers/FileTypeChecker.h"
 
 int main()
@@ -20,13 +20,14 @@ int main()
         std::cout << "---------------------------------------------------" << std::endl;
         return 1;
     }
-
+    
     Shapes3D::Triangulation triangulationObj;
     Shapes3D::ObjReader objReader;
-    Shapes3D::ObjWriter objWriter;
-    std::string txtOutputFilePath = "resources/outputFiles/cube.txt";
     objReader.read(inputFilePath, triangulationObj);
-    objWriter.write(txtOutputFilePath, triangulationObj);
+
+    std::string txtOutputFilePath = "resources/outputFiles/cube.txt";
+    Shapes3D::TxtWriter txtWriter;
+    txtWriter.write(txtOutputFilePath, triangulationObj);
 
     std::cout << "***************************************************" << std::endl;
 
