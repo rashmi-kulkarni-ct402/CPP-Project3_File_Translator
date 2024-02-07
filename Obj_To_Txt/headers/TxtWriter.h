@@ -4,11 +4,11 @@
 
 namespace Shapes3D
 {
-    class ObjWriter
+    class TxtWriter
     {
     public:
-        ObjWriter();
-        ~ObjWriter();
+        TxtWriter();
+        ~TxtWriter();
 
         void write(std::string &filePath, Triangulation &triangulationObj);
     };
