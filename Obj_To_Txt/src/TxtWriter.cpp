@@ -1,11 +1,11 @@
-#include "../headers/ObjWriter.h"
+#include "../headers/TxtWriter.h"
 #include <iostream>
 #include <fstream>
 
-Shapes3D::ObjWriter::ObjWriter() {}
-Shapes3D::ObjWriter::~ObjWriter() {}
+Shapes3D::TxtWriter::TxtWriter() {}
+Shapes3D::TxtWriter::~TxtWriter() {}
 
-void Shapes3D::ObjWriter::write(std::string &filePath, Triangulation &triangulationObj)
+void Shapes3D::TxtWriter::write(std::string &filePath, Triangulation &triangulationObj)
 {
     std::ofstream outFile(filePath);
 
