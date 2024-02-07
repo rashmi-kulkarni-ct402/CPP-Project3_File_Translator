@@ -20,8 +20,3 @@ std::vector<Shapes3D::Triangle> &Shapes3D::Triangulation::triangles()
 {
     return mTriangles;
 }
-
-std::vector<Shapes3D::Point3D> &Shapes3D::Triangulation::normals()
-{
-    return mNormals;
-}
