@@ -13,8 +13,6 @@ namespace Shapes3D
         double y() const;
         double z() const;
         bool operator<(const Point3D &other) const;
-        // Point3D cross(const Point3D &v2) const;
-        // Point3D normalize() const;
 
     private:
         double mX;
