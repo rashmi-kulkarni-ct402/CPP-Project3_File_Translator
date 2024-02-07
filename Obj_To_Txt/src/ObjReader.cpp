@@ -22,7 +22,6 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
     std::vector<Point3D> points;
     std::vector<Triangle> triangles;
 
-    int vertexindex = 0;
     while (getline(file, line))
     {
         std::istringstream vertexStream(line);
@@ -67,7 +66,6 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
             triangles.push_back(triangle);
         }
     }
-    vertexindex = 0;
 
     std::cout << "Data reading from .obj file completed successfully" << std::endl;
 
