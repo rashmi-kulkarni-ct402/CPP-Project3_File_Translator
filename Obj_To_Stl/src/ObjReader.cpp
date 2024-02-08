@@ -19,10 +19,8 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
     }
 
     std::string line;
-    std::vector<Point3D> points;
-    std::vector<Triangle> triangles;
-    std::vector<Point3D> normals;
-
+    int normalIndex = 0;
+    
     // reads obj file line by line
     while (getline(file, line))
     {
@@ -69,7 +67,18 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
             int vertex1 = stoi(tokens1[0]) - 1;
             int vertex2 = stoi(tokens2[0]) - 1;
             int vertex3 = stoi(tokens3[0]) - 1;
+
+            for (int i = index1.size(); i > 0; i--)
+            {
+                if (index1[i] == '/')
+                {
+                    normalIndex = std::stoi(index1.substr(i + 1, index1.size() - i - 1));
+                    break;
+                }
+            }
+            
             Triangle triangle(vertex1, vertex2, vertex3);
+            triangle.setNormalIndex(normalIndex - 1);
             triangulationObj.triangles().push_back(triangle);
         }
     }
