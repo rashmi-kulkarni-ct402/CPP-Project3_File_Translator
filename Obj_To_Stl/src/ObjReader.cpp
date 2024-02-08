@@ -46,45 +46,30 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
         }
         else if (keyword == "f")
         {
-            std::string v, t, n; // v - vertex, t - texture, n -normal
-            vertexStream >> v >> t >> n;
+            std::string index1, index2, index3;
+            vertexStream >> index1 >> index2 >> index3;
 
-            int vertex1 = stoi(v) - 1;
-            int vertex2 = stoi(t) - 1;
-            int vertex3 = stoi(n) - 1;
-            int normalIndex;
+            std::vector<std::string> tokens1, tokens2, tokens3;
 
-            for (int i = v.size(); i > 0; i--)
+            std::stringstream vertexTokenStreamV(index1), vertexTokenStreamT(index2), vertexTokenStreamN(index3);
+            std::string token;
+            while (getline(vertexTokenStreamV, token, '/'))
             {
-                if (v[i] == '/')
-                {
-                    normalIndex = stoi(v.substr(i + 1, v.size() - i - 1)) - 1;
-                    break;
-                }
+                tokens1.push_back(token);
             }
+            while (getline(vertexTokenStreamT, token, '/'))
+            {
+                tokens2.push_back(token);
+            }
+            while (getline(vertexTokenStreamN, token, '/'))
+            {
+                tokens3.push_back(token);
+            };
 
-            // std::vector<std::string> tokensV, tokensT, tokensN;
-            // std::stringstream vertexTokenStreamV(v), vertexTokenStreamT(t), vertexTokenStreamN(n);
-            // std::string token;
-
-            // while (getline(vertexTokenStreamV, token, '/'))
-            // {
-            //     tokensV.push_back(token);
-            // }
-            // while (getline(vertexTokenStreamT, token, '/'))
-            // {
-            //     tokensT.push_back(token);
-            // }
-            // while (getline(vertexTokenStreamN, token, '/'))
-            // {
-            //     tokensN.push_back(token);
-            // };
-
-            // int vertex1 = stoi(tokensV[0]) - 1;
-            // int vertex2 = stoi(tokensT[0]) - 1;
-            // int vertex3 = stoi(tokensN[0]) - 1;
-
-            Triangle triangle(vertex1, vertex2, vertex3, normalIndex);
+            int vertex1 = stoi(tokens1[0]) - 1;
+            int vertex2 = stoi(tokens2[0]) - 1;
+            int vertex3 = stoi(tokens3[0]) - 1;
+            Triangle triangle(vertex1, vertex2, vertex3);
             triangulationObj.triangles().push_back(triangle);
         }
     }
