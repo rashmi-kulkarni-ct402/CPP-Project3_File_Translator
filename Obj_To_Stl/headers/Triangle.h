@@ -7,7 +7,7 @@ namespace Shapes3D
     {
     public:
         Triangle();
-        Triangle(int inIndex1, int inIndex2, int inIndex3, int inNormalIndex);
+        Triangle(int inIndex1, int inIndex2, int inIndex3);
         ~Triangle();
 
         int index1() const;
@@ -18,6 +18,7 @@ namespace Shapes3D
         void setindex1(int inIndex1);
         void setindex2(int inIndex2);
         void setindex3(int inIndex3);
+        void setNormalIndex(int inNormalIndex);
 
     private:
         int mIndex1;
