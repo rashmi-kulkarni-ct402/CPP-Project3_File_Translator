@@ -25,7 +25,7 @@ int main()
     Shapes3D::ObjReader objReader;
     objReader.read(inputFilePath, triangulationObj);
 
-    std::string txtOutputFilePath = "resources/outputFiles/cube.txt";
+    std::string txtOutputFilePath = "resources/outputFiles/sphere.txt";
     Shapes3D::TxtWriter txtWriter;
     txtWriter.write(txtOutputFilePath, triangulationObj);
 
