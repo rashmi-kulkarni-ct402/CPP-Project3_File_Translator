@@ -38,12 +38,12 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
 
         else if (keyword == "f")
         {
-            std::string v, t, n; // v - vertex, t - texture, n -normal
-            vertexStream >> v >> t >> n;
+             std::string index1, index2, index3;
+            vertexStream >> index1 >> index2 >> index3;
 
             std::vector<std::string> tokensV, tokensT, tokensN;
 
-            std::stringstream vertexTokenStreamV(v), vertexTokenStreamT(t), vertexTokenStreamN(n);
+            std::stringstream vertexTokenStreamV(index1), vertexTokenStreamT(index2), vertexTokenStreamN(index3);
             std::string token;
             while (getline(vertexTokenStreamV, token, '/'))
             {
