@@ -22,7 +22,7 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
     int index1;
     int index2;
     int index3;
-    int normalIndex;
+    int normalIndex = 0;
     std::string line;
     std::map<Point3D, int> pointIndexMap;
     std::map<Point3D, int> normalIndexMap;
@@ -80,7 +80,9 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
             }
             if (count == 3)
             {
-                triangulationObj.triangles().push_back(Triangle(index1, index2, index3, normalIndex));
+                Triangle triangle(index1, index2, index3);
+                triangle.setNormalIndex(normalIndex);
+                triangulationObj.triangles().push_back(triangle);
                 count = 0;
             }
         }
