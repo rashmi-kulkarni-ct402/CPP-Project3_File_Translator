@@ -11,8 +11,10 @@ namespace Shapes3D
         Triangulation();
         ~Triangulation();
 
-        std::vector<Point3D> &uniquePoints();
-        std::vector<Triangle> &triangles();
+        std::vector<Point3D> uniquePoints() const;
+        std::vector<Triangle> triangles() const;
+        void addUniquePointToTriangulation(const Point3D point);
+        void addTriangleToTriangulation(const Triangle triangle);
 
     private:
         std::vector<Point3D> mUniquePoints;
