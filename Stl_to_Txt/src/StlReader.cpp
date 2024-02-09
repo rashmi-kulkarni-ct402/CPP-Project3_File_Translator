@@ -13,6 +13,7 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
 {
     std::ifstream file(filePath);
 
+    // checks for file opening error
     if (!file.is_open())
     {
         std::cout << "Error while opening the file." << std::endl;
@@ -26,24 +27,33 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
     std::string keyword;
     std::map<Point3D, int> pointIndexMap;
 
+    // reads obj file line by line
     while (getline(file, line))
     {
         std::istringstream iss(line);
 
         if (line.find("vertex") != std::string::npos)
         {
-            double x1, y1, z1;
-            iss >> keyword >> x1 >> y1 >> z1;
+            double x;
+            double y;
+            double z;
+            std::istringstream vertexStream(line);
+            std::string keywordVertex;
+            vertexStream >> keywordVertex >> x >> y >> z;
 
-            Point3D point(x1, y1, z1);
+            Point3D point(x, y, z);
 
+            // searchs for point in the map
             auto iterator = pointIndexMap.find(point);
             if (iterator == pointIndexMap.end())
             {
+                // if not found in map, adds point to map
                 pointIndexMap[point] = triangulationObj.uniquePoints().size();
-                triangulationObj.uniquePoints().push_back(point);
+                // adds point to triangulation object
+                triangulationObj.addUniquePointToTriangulation(point);
             }
 
+            // get vertex indices
             if (count == 0)
             {
                 index1 = pointIndexMap[point];
@@ -58,12 +68,17 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
             {
                 index3 = pointIndexMap[point];
                 count++;
-
-                triangulationObj.triangles().push_back(Triangle(index1, index2, index3));
+            }
+            if (count == 3)
+            {
+                Triangle triangle(index1, index2, index3);
+                // add triangle to triangulation object
+                triangulationObj.addTriangleToTriangulation(triangle);
                 count = 0;
             }
         }
     };
     std::cout << "Data reading from .stl file completed successfully" << std::endl;
+    // closing the file
     file.close();
 }
