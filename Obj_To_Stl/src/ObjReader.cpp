@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 
-Shapes3D::ObjReader::ObjReader() {}
+Shapes3D::ObjReader::ObjReader() {}    
 Shapes3D::ObjReader::~ObjReader() {}
 
 void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &triangulationObj)
@@ -32,7 +32,9 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
         // Checks if keyword is "v" (vertex)
         if (keyword == "v")
         {
-            double x, y, z;
+            double x;
+            double y;
+            double z;
             vertexStream >> x >> y >> z;
             Point3D point(x, y, z);
             // add point to triangulation object
@@ -41,7 +43,9 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
         // Checks if keyword is "vn" (vertex normal)
         else if (keyword == "vn")
         {
-            double x, y, z;
+            double x;
+            double y;
+            double z;
             vertexStream >> x >> y >> z;
             Point3D normal(x, y, z);
             // add normal to triangulation object
@@ -50,7 +54,9 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
         // Checks if keyword is "f" (face)
         else if (keyword == "f")
         {
-            std::string index1, index2, index3;
+            std::string index1;
+            std::string index2;
+            std::string index3;
             vertexStream >> index1 >> index2 >> index3;
 
             std::vector<std::string> tokens1, tokens2, tokens3;
