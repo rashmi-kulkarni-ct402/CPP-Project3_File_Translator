@@ -30,19 +30,19 @@ std::vector<Shapes3D::Point3D> Shapes3D::Triangulation::uniqueNormals() const
 }
 
 // adds a point to mUniquePoints vector
-void Shapes3D::Triangulation::addUniquePointToTriangulation(const Shapes3D::Point3D point)
+void Shapes3D::Triangulation::addUniquePointToTriangulation(const Shapes3D::Point3D inPoint)
 {
-    mUniquePoints.push_back(point);
+    mUniquePoints.push_back(inPoint);
 }
 
 // adds a triangle to mTriangles vector
-void Shapes3D::Triangulation::addTriangleToTriangulation(const Shapes3D::Triangle triangle)
+void Shapes3D::Triangulation::addTriangleToTriangulation(const Shapes3D::Triangle inTriangle)
 {
-    mTriangles.push_back(triangle);
+    mTriangles.push_back(inTriangle);
 }
 
 // adds a normal to mUniqueNormals vector
-void Shapes3D::Triangulation::addUniqueNormalToTriangulation(const Shapes3D::Point3D normal)
+void Shapes3D::Triangulation::addUniqueNormalToTriangulation(const Shapes3D::Point3D inNormal)
 {
-    mUniqueNormals.push_back(normal);
+    mUniqueNormals.push_back(inNormal);
 }
