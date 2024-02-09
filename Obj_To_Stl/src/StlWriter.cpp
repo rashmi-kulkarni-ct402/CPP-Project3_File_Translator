@@ -6,21 +6,24 @@
 Shapes3D::StlWriter::StlWriter() {}
 Shapes3D::StlWriter::~StlWriter() {}
 
-void Shapes3D::StlWriter::write(std::string &filePath, Triangulation &triangulationStl)
+void Shapes3D::StlWriter::write(std::string &filePath, Triangulation &triangulationObj)
 {
     std::ofstream outFile(filePath);
 
+    // checks for file opening error
     if (!outFile.is_open())
     {
         std::cout << "Error while opening .stl file." << std::endl;
         return;
     }
 
-    std::vector<Point3D> &points = triangulationStl.uniquePoints();
-    std::vector<Triangle> &triangles = triangulationStl.triangles();
-    std::vector<Point3D> &normals = triangulationStl.uniqueNormals();
+    // getting values of uniquePoints, triangles, uniqueNormals and assigning to new vectors -> points, triangles and normals
+    std::vector<Point3D> points = triangulationObj.uniquePoints();
+    std::vector<Triangle> triangles = triangulationObj.triangles();
+    std::vector<Point3D> normals = triangulationObj.uniqueNormals();
 
     outFile << "solid" << std::endl;
+    // iterating each triangle from traingles vector to write normal and points
     for (const Triangle &triangle : triangles)
     {
         outFile << "facet normal " << normals[triangle.normalIndex()].x() << " " << normals[triangle.normalIndex()].y() << " " << normals[triangle.normalIndex()].z() << std::endl;
@@ -32,6 +35,7 @@ void Shapes3D::StlWriter::write(std::string &filePath, Triangulation &triangulat
         outFile << "endfacet" << std::endl;
     }
     outFile << "endsolid";
+    // closing the file
     outFile.close();
     std::cout << "Data writing from .obj to .stl file successful!" << std::endl;
 }
