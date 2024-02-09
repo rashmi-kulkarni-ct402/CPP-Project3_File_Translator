@@ -12,6 +12,7 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
 {
     std::ifstream file(filePath);
 
+    // check for file opening error
     if (!file.is_open())
     {
         std::cout << "Error while opening .obj file." << std::endl;
@@ -19,58 +20,64 @@ void Shapes3D::ObjReader::read(const std::string &filePath, Triangulation &trian
     }
 
     std::string line;
-    std::vector<Point3D> points;
-    std::vector<Triangle> triangles;
-
+    // reads obj line by line
     while (getline(file, line))
     {
         std::istringstream vertexStream(line);
         std::string keyword;
         vertexStream >> keyword;
 
+        // checks if keyword is "v" (vertex)
         if (keyword == "v")
         {
-            double x, y, z;
+            double x;
+            double y;
+            double z;
             vertexStream >> x >> y >> z;
             Point3D point(x, y, z);
-            points.push_back(point);
+            // adds point to the triangulation object
+            triangulationObj.addUniquePointToTriangulation(point);
         }
-
+        // checks if keyword is "f" (face)
         else if (keyword == "f")
         {
-             std::string index1, index2, index3;
+            std::string index1;
+            std::string index2;
+            std::string index3;
             vertexStream >> index1 >> index2 >> index3;
 
             std::vector<std::string> tokensV, tokensT, tokensN;
 
             std::stringstream vertexTokenStreamV(index1), vertexTokenStreamT(index2), vertexTokenStreamN(index3);
             std::string token;
+            // tokenize vertex index
             while (getline(vertexTokenStreamV, token, '/'))
             {
                 tokensV.push_back(token);
             }
+            // tokenize texture index
             while (getline(vertexTokenStreamT, token, '/'))
             {
                 tokensT.push_back(token);
             }
+            // tokenize normal index
             while (getline(vertexTokenStreamN, token, '/'))
             {
                 tokensN.push_back(token);
             };
 
+            // get vertex indices
             int vertex1 = stoi(tokensV[0]) - 1;
             int vertex2 = stoi(tokensT[0]) - 1;
             int vertex3 = stoi(tokensN[0]) - 1;
 
             Triangle triangle(vertex1, vertex2, vertex3);
-            triangles.push_back(triangle);
+            // adds triangle to the triangulation object
+            triangulationObj.addTriangleToTriangulation(triangle);
         }
     }
 
     std::cout << "Data reading from .obj file completed successfully" << std::endl;
-
-    triangulationObj.uniquePoints() = points;
-    triangulationObj.triangles() = triangles;
-
+    // closing the file
     file.close();
 }
