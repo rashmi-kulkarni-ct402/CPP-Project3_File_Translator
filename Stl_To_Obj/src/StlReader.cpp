@@ -13,6 +13,7 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
 {
     std::ifstream file(filePath);
 
+    // checks for file opening error
     if (!file.is_open())
     {
         std::cout << "Error while opening the file." << std::endl;
@@ -27,42 +28,56 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
     std::map<Point3D, int> pointIndexMap;
     std::map<Point3D, int> normalIndexMap;
 
+    // reads obj file line by line
     while (getline(file, line))
     {
+
         if (line.find("facet normal") != std::string::npos)
         {
-            double x, y, z;
+            double x;
+            double y;
+            double z;
             std::istringstream facetNormalStream(line);
-            std::string keywordFacet1, keywordFacet2;
+            std::string keywordFacet1;
+            std::string keywordFacet2;
             facetNormalStream >> keywordFacet1 >> keywordFacet2 >> x >> y >> z;
 
-            Point3D facet(x, y, z);
+            Point3D facetNormal(x, y, z);
 
-            auto iterator = normalIndexMap.find(facet);
+            // searchs for facetNormal in the map
+            auto iterator = normalIndexMap.find(facetNormal);
             if (iterator == normalIndexMap.end())
             {
-                normalIndexMap[facet] = triangulationObj.uniqueNormals().size();
-                triangulationObj.uniqueNormals().push_back(facet);
+                // if not found in map, adds facetNormal to map
+                normalIndexMap[facetNormal] = triangulationObj.uniqueNormals().size();
+                // adds normal to triangulation object
+                triangulationObj.addUniqueNormalToTriangulation(facetNormal);
             }
-            normalIndex = normalIndexMap[facet];
+            normalIndex = normalIndexMap[facetNormal];
         }
 
         if (line.find("vertex") != std::string::npos)
         {
-            double x, y, z;
+            double x;
+            double y;
+            double z;
             std::istringstream vertexStream(line);
             std::string keywordVertex;
             vertexStream >> keywordVertex >> x >> y >> z;
 
             Point3D point(x, y, z);
 
+            // searchs for point in the map
             auto iterator = pointIndexMap.find(point);
             if (iterator == pointIndexMap.end())
             {
-                triangulationObj.uniquePoints().push_back(point);
+                // if not found in map, adds point to map
                 pointIndexMap[point] = triangulationObj.uniquePoints().size();
+                // adds point to triangulation object
+                triangulationObj.addUniquePointToTriangulation(point);
             }
 
+            // get vertex indices
             if (count == 0)
             {
                 index1 = pointIndexMap[point];
@@ -82,11 +97,13 @@ void Shapes3D::StlReader::read(const std::string &filePath, Triangulation &trian
             {
                 Triangle triangle(index1, index2, index3);
                 triangle.setNormalIndex(normalIndex);
-                triangulationObj.triangles().push_back(triangle);
+                // add triangle to triangulation object
+                triangulationObj.addTriangleToTriangulation(triangle);
                 count = 0;
             }
         }
     };
     std::cout << "Data reading from .stl file completed successfully" << std::endl;
+    // closing the file
     file.close();
 }
